@@ -1,0 +1,128 @@
+#!/bin/bash
+
+# StreamDock Wrapper - Fixes JSON format for original executable
+
+PLUGIN_DIR="$(dirname "$0")"
+ORIGINAL_EXEC="$PLUGIN_DIR/StreamDeck-Shortcuts"
+
+# Parse arguments
+PORT=""
+PLUGIN_UUID=""
+REGISTER_EVENT=""
+INFO=""
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -port)
+            PORT="$2"
+            shift 2
+            ;;
+        -pluginUUID)
+            PLUGIN_UUID="$2"
+            shift 2
+            ;;
+        -registerEvent)
+            REGISTER_EVENT="$2"
+            shift 2
+            ;;
+        -info)
+            INFO="$2"
+            shift 2
+            ;;
+        *)
+            shift
+            ;;
+    esac
+done
+
+# Fix the JSON format to match what the executable expects
+FIXED_INFO=$(echo "$INFO" | python3 -c "
+import json
+import sys
+
+try:
+    data = json.load(sys.stdin)
+    
+    # Fix application object
+    if 'application' in data:
+        app = data['application']
+        
+        # Change platform from 'macos' to 'mac'
+        if app.get('platform') == 'macos':
+            app['platform'] = 'mac'
+            
+        # Add missing fields if they don't exist
+        if 'language' not in app:
+            app['language'] = 'en'
+        if 'platformVersion' not in app:
+            app['platformVersion'] = '10.15'
+        if 'version' not in app:
+            app['version'] = '1.0'
+    
+    # Add plugin field if missing
+    if 'plugin' not in data:
+        data['plugin'] = {
+            'uuid': 'com.orumad.streamdock.macshortcuts',
+            'version': '1.0.0'
+        }
+    
+    # Add other required fields if missing
+    if 'devicePixelRatio' not in data:
+        data['devicePixelRatio'] = 1
+    
+    if 'devices' not in data:
+        data['devices'] = [
+            {
+                'id': 'default',
+                'name': 'StreamDock',
+                'size': {'columns': 5, 'rows': 3},
+                'type': 0
+            }
+        ]
+    
+    if 'colors' not in data:
+        data['colors'] = {
+            'buttonMouseOverBackgroundColor': '#464646FF',
+            'buttonPressedBackgroundColor': '#303030FF',
+            'buttonPressedBorderColor': '#646464FF',
+            'buttonPressedTextColor': '#969696FF',
+            'highlightColor': '#0078FFFF'
+        }
+    
+    print(json.dumps(data))
+    
+except Exception as e:
+    # If JSON parsing fails, create a minimal valid structure
+    minimal = {
+        'application': {
+            'platform': 'mac',
+            'language': 'en',
+            'platformVersion': '10.15',
+            'version': '1.0'
+        },
+        'plugin': {
+            'uuid': 'com.orumad.streamdock.macshortcuts',
+            'version': '1.0.0'
+        },
+        'devicePixelRatio': 1,
+        'devices': [
+            {
+                'id': 'default',
+                'name': 'StreamDock',
+                'size': {'columns': 5, 'rows': 3},
+                'type': 0
+            }
+        ],
+        'colors': {
+            'buttonMouseOverBackgroundColor': '#464646FF',
+            'buttonPressedBackgroundColor': '#303030FF',
+            'buttonPressedBorderColor': '#646464FF',
+            'buttonPressedTextColor': '#969696FF',
+            'highlightColor': '#0078FFFF'
+        }
+    }
+    print(json.dumps(minimal))
+")
+
+# Execute the original plugin with fixed parameters
+exec "$ORIGINAL_EXEC" stream-deck-command -port "$PORT" -pluginUUID "$PLUGIN_UUID" -registerEvent "$REGISTER_EVENT" -info "$FIXED_INFO"

@@ -1,0 +1,9 @@
+{
+  "dropdownRefs" : 2,
+  "textFieldRefs" : 0,
+  "searchRefs" : 0,
+  "isAccessibility" : false,
+  "accessibilityHoldDownTime" : 5,
+  "accessibilityVoice" : "Samantha",
+  "isForcedTitle" : false
+}
