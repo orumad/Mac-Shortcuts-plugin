@@ -143,7 +143,7 @@ function updateSettings() {
     }
 
     payload.isForcedTitle = isForcedTitle.toString();
-    
+
     // Fixed accessibility values (OFF)
     payload.sayvoice = "Alex";
     payload.isSayvoice = "false";
@@ -223,9 +223,6 @@ function refreshListOfShortcuts() {
 
     if (listOfCuts.includes(usersSelectedShortcut)) {
         listOfShortcuts.value = usersSelectedShortcut;
-    //     // Set title automatically when loading saved shortcut
-    //     alert("refresh " + usersSelectedShortcut)
-    //     setShortcutTitle(usersSelectedShortcut);
     }
 }
 
