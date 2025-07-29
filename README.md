@@ -1,5 +1,7 @@
 # Mac Shortcuts Plugin for Mirabox StreamDock
 
+![Plugin Interface](plugin-image.jpg)
+
 A plugin for Mirabox StreamDock that allows you to execute Mac Shortcuts directly from your StreamDock buttons.
 
 > ⚠️ **IMPORTANT**: This plugin is **macOS ONLY**. It will NOT work on Windows systems as it relies on Apple's Shortcuts app which is exclusive to macOS.
