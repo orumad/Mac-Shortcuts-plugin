@@ -19,44 +19,44 @@ let usersSelectedShortcut = "";
 // Removed debug function
 
 // Stream Dock WebSocket connection function
-function connectElgatoStreamDeckSocket(inPort, inUUID, inMessageType, inApplicationInfo, inActionInfo) {
-    uuid = inUUID;
+function connectElgatoStreamDeckSocket(inPort, inPluginUUID, inRegisterEvent, inInfo, inActionInfo) {
+    uuid = inPluginUUID;
     actionInfo = JSON.parse(inActionInfo);
-    
+
     // Create WebSocket connection
     websocket = new WebSocket('ws://127.0.0.1:' + inPort);
-    
+
     websocket.onopen = function() {
         // Register Property Inspector
         const json = {
-            event: inMessageType,
-            uuid: inUUID
+            event: inRegisterEvent,
+            uuid: inPluginUUID
         };
-        
+
         websocket.send(JSON.stringify(json));
-        
+
         // Request settings from backend
         requestSettings();
-        
+
         // Show the main wrapper
         const mainWrapper = document.getElementById('mainWrapper');
         if (mainWrapper) {
             mainWrapper.classList.remove('hidden');
         }
     };
-    
+
     websocket.onmessage = function(evt) {
         const jsonObj = JSON.parse(evt.data);
-        
+
         if (jsonObj.event === 'sendToPropertyInspector') {
             handleBackendResponse(jsonObj.payload);
         }
     };
-    
+
     websocket.onerror = function(evt) {
         console.error('WebSocket error:', evt);
     };
-    
+
     websocket.onclose = function(evt) {
         console.warn('WebSocket closed:', evt.code);
     };
@@ -77,8 +77,8 @@ function sendToPlugin(payload) {
 
 // Request settings from backend
 function requestSettings() {
-    sendToPlugin({ 
-        type: "requestSettings" 
+    sendToPlugin({
+        type: "requestSettings"
     });
 }
 
@@ -89,41 +89,41 @@ function handleBackendResponse(payload) {
             console.error('Backend error:', payload.error);
             return;
         }
-        
+
         // Parse data from backend
         usersSelectedShortcut = payload.shortcutName || "";
         globalSayVoice = payload.sayvoice || "Alex";
         isSayvoice = parseJSONSafely(payload.isSayvoice) || false;
         isForcedTitle = parseJSONSafely(payload.isForcedTitle) || false;
-        
+
         // Parse shortcuts data
         shortcutsFolder = parseJSONSafely(payload.shortcutsFolder);
         if (!Array.isArray(shortcutsFolder)) {
             shortcutsFolder = ['All'];
         }
-        
+
         mappedDataFromBackend = parseJSONSafely(payload.mappedDataFromBackend);
         if (!mappedDataFromBackend || typeof mappedDataFromBackend !== 'object') {
             mappedDataFromBackend = { 'Default Shortcut': 'All' };
         }
-        
+
         listOfVoices = parseJSONSafely(payload.voices);
         if (!Array.isArray(listOfVoices)) {
             listOfVoices = ['Alex', 'Samantha'];
         }
-        
+
         // Update UI
         filterMapped('All');
         refreshListOfShortcutsFolders();
         refreshListOfShortcuts();
         setForcedTitleState();
-        
+
         // Show the main interface
         const PI_Shortcuts = document.getElementById('PI_Shortcuts');
         if (PI_Shortcuts) {
             PI_Shortcuts.style.display = "block";
         }
-        
+
     } catch (error) {
         console.error('Error processing response:', error.message);
     }
@@ -132,23 +132,23 @@ function handleBackendResponse(payload) {
 // Update settings
 function updateSettings() {
     if (!uuid) return;
-    
+
     let payload = {
         type: "updateSettings"
     };
-    
+
     const shortcutName = document.getElementById('shortcut_list');
     if (shortcutName) {
         payload.shortcutName = shortcutName.value;
     }
-    
+
     payload.isForcedTitle = isForcedTitle.toString();
     
     // Fixed accessibility values (OFF)
     payload.sayvoice = "Alex";
     payload.isSayvoice = "false";
     payload.sayHoldTime = "0";
-    
+
     sendToPlugin(payload);
 }
 
@@ -168,7 +168,7 @@ function parseJSONSafely(str) {
 // All the existing UI functions (keeping the same logic)
 function filterMapped(filteredByFolder) {
     listOfCuts.length = 0;
-    
+
     if (filteredByFolder == 'All') {
         for (var key in mappedDataFromBackend) {
             listOfCuts.push(key);
@@ -180,10 +180,10 @@ function filterMapped(filteredByFolder) {
             }
         }
     }
-    
+
     const select = document.getElementById("shortcuts_folder_list");
     if (select) select.value = filteredByFolder;
-    
+
     listOfCuts.sort();
     refreshListOfShortcuts();
 }
@@ -191,12 +191,12 @@ function filterMapped(filteredByFolder) {
 function refreshListOfShortcutsFolders() {
     const select = document.getElementById("shortcuts_folder_list");
     if (!select) return;
-    
+
     if (shortcutsFolder.length <= 1) {
         const folderID = document.getElementById("isFolder");
         if (folderID) folderID.style.display = "none";
     }
-    
+
     if (select.length != shortcutsFolder.length) {
         select.length = 0;
         for (var val of shortcutsFolder) {
@@ -211,32 +211,29 @@ function refreshListOfShortcutsFolders() {
 function refreshListOfShortcuts() {
     const listOfShortcuts = document.getElementById("shortcut_list");
     if (!listOfShortcuts) return;
-    
+
     listOfShortcuts.length = 0;
-    
+
     for (var val of listOfCuts) {
         const option = document.createElement("option");
         option.value = val;
         option.text = val.charAt(0).toUpperCase() + val.slice(1);
         listOfShortcuts.appendChild(option);
     }
-    
+
     if (listOfCuts.includes(usersSelectedShortcut)) {
         listOfShortcuts.value = usersSelectedShortcut;
+    //     // Set title automatically when loading saved shortcut
+    //     alert("refresh " + usersSelectedShortcut)
+    //     setShortcutTitle(usersSelectedShortcut);
     }
 }
 
-// Accessibility functions removed
-
 function setForcedTitleState() {
-    const x = document.getElementById("forced_title");
-    if (!x) return;
-    
-    if (isForcedTitle == true) {
-        x.textContent = 'Override Title: Toggle Off';
-    } else {
-        x.textContent = 'Override Title: Toggle On';
-    }
+    const button = document.getElementById("forced_title_checkbox");
+    if (!button) return;
+
+    button.textContent = isForcedTitle ? 'ON' : 'OFF';
 }
 
 function selectedNewIndex(selected_id, selected_type) {
@@ -248,28 +245,8 @@ function selectedNewIndex(selected_id, selected_type) {
     updateSettings();
 }
 
-// toggleAccessNew function removed
-
 function changeForcedTitle() {
     isForcedTitle = !isForcedTitle;
     setForcedTitleState();
     updateSettings();
 }
-
-function openPage(site) {
-    if (websocket && uuid) {
-        const json = {
-            event: 'openUrl',
-            context: uuid,
-            payload: {
-                url: 'https://' + site
-            }
-        };
-        websocket.send(JSON.stringify(json));
-    }
-}
-
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Mac Shortcuts plugin loaded, waiting for Stream Dock connection...');
-});

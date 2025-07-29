@@ -4,8 +4,8 @@
     "Description": "Launch Shortcuts straight from your StreamDock!",
     "Category": "Shortcuts",
     "Version": "1.0.0",
-    "Icon": "Icons/ShortcutsIcon",
-    "CategoryIcon": "Icons/ShortcutsIcon",
+    "Icon": "Icons/shortcuts-icon",
+    "CategoryIcon": "Icons/shortcuts-white-icon",
     "Software": {
         "MinimumVersion": "2.9"
     },
@@ -20,14 +20,14 @@
     ],
     "Actions": [
         {
-            "Icon": "Icons/Shortcuts-appIcon",
+            "Icon": "Icons/shortcuts-white-icon",
             "Name": "Launch Shortcut",
             "UUID": "shortcut.run",
             "SupportedInMultiActions": true,
             "Tooltip": "Launches Shortcut!",
             "States": [
                 {
-                    "Image": "Icons/ShortcutsIcon"
+                    "Image": "Icons/shortcuts-icon"
                 }
             ]
         }

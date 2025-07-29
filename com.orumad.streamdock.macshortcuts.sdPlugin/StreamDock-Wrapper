@@ -42,15 +42,15 @@ import sys
 
 try:
     data = json.load(sys.stdin)
-    
+
     # Fix application object
     if 'application' in data:
         app = data['application']
-        
+
         # Change platform from 'macos' to 'mac'
         if app.get('platform') == 'macos':
             app['platform'] = 'mac'
-            
+
         # Add missing fields if they don't exist
         if 'language' not in app:
             app['language'] = 'en'
@@ -58,18 +58,18 @@ try:
             app['platformVersion'] = '10.15'
         if 'version' not in app:
             app['version'] = '1.0'
-    
+
     # Add plugin field if missing
     if 'plugin' not in data:
         data['plugin'] = {
             'uuid': 'com.orumad.streamdock.macshortcuts',
             'version': '1.0.0'
         }
-    
+
     # Add other required fields if missing
     if 'devicePixelRatio' not in data:
         data['devicePixelRatio'] = 1
-    
+
     if 'devices' not in data:
         data['devices'] = [
             {
@@ -79,7 +79,7 @@ try:
                 'type': 0
             }
         ]
-    
+
     if 'colors' not in data:
         data['colors'] = {
             'buttonMouseOverBackgroundColor': '#464646FF',
@@ -88,9 +88,9 @@ try:
             'buttonPressedTextColor': '#969696FF',
             'highlightColor': '#0078FFFF'
         }
-    
+
     print(json.dumps(data))
-    
+
 except Exception as e:
     # If JSON parsing fails, create a minimal valid structure
     minimal = {

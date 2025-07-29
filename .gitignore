@@ -30,6 +30,7 @@ Temporary Items
 # Claude Code
 .claude/
 *.claude
+CLAUDE.md
 
 # JavaScript/Node.js
 node_modules/
