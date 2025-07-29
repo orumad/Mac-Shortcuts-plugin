@@ -1,6 +1,6 @@
 {
     "Author": "Orumad",
-    "Name": "Shortcuts",
+    "Name": "Mac Shortcuts",
     "Description": "Launch Shortcuts straight from your StreamDock!",
     "Icon": "static/shortcuts-icon",
     "Category": "Shortcuts",
@@ -9,6 +9,7 @@
     "CodePath": "StreamDock-Wrapper",
     "PropertyInspectorPath": "pi/main_pi.html",
     "SDKVersion": 1,
+    "URL": "https://github.com/orumad/Mac-Shortcuts-plugin",
     "OS": [
         {
             "Platform": "mac",
