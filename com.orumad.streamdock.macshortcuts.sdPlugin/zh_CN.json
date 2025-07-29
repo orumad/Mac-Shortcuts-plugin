@@ -1,0 +1,19 @@
+{
+  "Name": "快捷指令",
+  "Description": "直接从您的 StreamDock 启动快捷指令！",
+  "com.orumad.streamdock.mac-shortcuts.launch-shortcut": {
+    "Name": "启动快捷指令",
+    "Tooltip": "启动快捷指令！"
+  },
+  "Category": "快捷指令",
+  "Localization": {
+    "📁 Folder": "📁 文件夹",
+    "⚡ Shortcut": "⚡ 快捷指令",
+    "💬 Force Title": "💬 强制标题",
+    "Loading...": "加载中...",
+    "OFF": "关闭",
+    "ON": "开启",
+    "Note:": "注意：",
+    "This setting affects all plugin instances globally. When ON, titles are managed by the shortcut name. To remove a button's title, use the standard Title field above and enter a single space.": "此设置会全局影响所有插件实例。开启时，标题由快捷指令名称管理。要移除按钮标题，请使用上方的标准标题字段并输入一个空格。"
+  }
+}

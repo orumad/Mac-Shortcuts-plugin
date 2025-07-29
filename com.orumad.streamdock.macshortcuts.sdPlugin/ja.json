@@ -1,0 +1,19 @@
+{
+  "Name": "ショートカット",
+  "Description": "StreamDockから直接ショートカットを起動！",
+  "com.orumad.streamdock.mac-shortcuts.launch-shortcut": {
+    "Name": "ショートカット起動",
+    "Tooltip": "ショートカットを起動します！"
+  },
+  "Category": "ショートカット",
+  "Localization": {
+    "📁 Folder": "📁 フォルダ",
+    "⚡ Shortcut": "⚡ ショートカット",
+    "💬 Force Title": "💬 タイトル強制",
+    "Loading...": "読み込み中...",
+    "OFF": "オフ",
+    "ON": "オン",
+    "Note:": "注意：",
+    "This setting affects all plugin instances globally. When ON, titles are managed by the shortcut name. To remove a button's title, use the standard Title field above and enter a single space.": "この設定はすべてのプラグインインスタンスにグローバルに影響します。オンの場合、タイトルはショートカット名で管理されます。ボタンのタイトルを削除するには、上の標準タイトルフィールドを使用してスペースを1つ入力してください。"
+  }
+}

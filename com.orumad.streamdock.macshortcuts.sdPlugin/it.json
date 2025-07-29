@@ -1,0 +1,19 @@
+{
+  "Name": "Comandi Rapidi",
+  "Description": "Lancia i Comandi Rapidi direttamente dal tuo StreamDock!",
+  "com.orumad.streamdock.mac-shortcuts.launch-shortcut": {
+    "Name": "Lancia Comando Rapido",
+    "Tooltip": "Lancia un Comando Rapido!"
+  },
+  "Category": "Comandi Rapidi",
+  "Localization": {
+    "📁 Folder": "📁 Cartella",
+    "⚡ Shortcut": "⚡ Comando Rapido",
+    "💬 Force Title": "💬 Forza Titolo",
+    "Loading...": "Caricamento...",
+    "OFF": "DISATTIVATO",
+    "ON": "ATTIVATO",
+    "Note:": "Nota:",
+    "This setting affects all plugin instances globally. When ON, titles are managed by the shortcut name. To remove a button's title, use the standard Title field above and enter a single space.": "Questa impostazione influenza tutte le istanze del plugin globalmente. Quando è ATTIVATO, i titoli sono gestiti dal nome del comando rapido. Per rimuovere il titolo di un pulsante, usa il campo Titolo standard sopra e inserisci uno spazio."
+  }
+}

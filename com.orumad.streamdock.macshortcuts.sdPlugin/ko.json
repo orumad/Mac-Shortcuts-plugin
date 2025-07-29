@@ -1,0 +1,19 @@
+{
+  "Name": "단축어",
+  "Description": "StreamDock에서 바로 단축어를 실행하세요!",
+  "com.orumad.streamdock.mac-shortcuts.launch-shortcut": {
+    "Name": "단축어 실행",
+    "Tooltip": "단축어를 실행합니다!"
+  },
+  "Category": "단축어",
+  "Localization": {
+    "📁 Folder": "📁 폴더",
+    "⚡ Shortcut": "⚡ 단축어",
+    "💬 Force Title": "💬 제목 강제",
+    "Loading...": "로딩 중...",
+    "OFF": "끄기",
+    "ON": "켜기",
+    "Note:": "참고:",
+    "This setting affects all plugin instances globally. When ON, titles are managed by the shortcut name. To remove a button's title, use the standard Title field above and enter a single space.": "이 설정은 모든 플러그인 인스턴스에 전역적으로 영향을 미칩니다. 켜기 상태일 때 제목은 단축어 이름으로 관리됩니다. 버튼 제목을 제거하려면 위의 표준 제목 필드를 사용하고 공백을 하나 입력하세요."
+  }
+}

@@ -16,10 +16,13 @@ let isForcedTitle = false;
 let globalSayVoice = "Alex"; // Default value
 let usersSelectedShortcut = "";
 
+// Store translations globally for dynamic updates
+let globalTranslations = {};
+
 // Removed debug function
 
 // Stream Dock WebSocket connection function
-function connectElgatoStreamDeckSocket(inPort, inPluginUUID, inRegisterEvent, inInfo, inActionInfo) {
+async function connectElgatoStreamDeckSocket(inPort, inPluginUUID, inRegisterEvent, inInfo, inActionInfo) {
     uuid = inPluginUUID;
     actionInfo = JSON.parse(inActionInfo);
 
@@ -60,6 +63,70 @@ function connectElgatoStreamDeckSocket(inPort, inPluginUUID, inRegisterEvent, in
     websocket.onclose = function(evt) {
         console.warn('WebSocket closed:', evt.code);
     };
+
+    // Auto translate page
+    try {
+        const appInfo = JSON.parse(inInfo);
+        const language = appInfo.application.language || 'en';
+        
+        // Load translations
+        const translations = await new Promise(resolve => {
+            const req = new XMLHttpRequest();
+            req.open('GET', `../${language}.json`);
+            req.send();
+            req.onreadystatechange = () => {
+                if (req.readyState === 4) {
+                    if (req.status === 200) {
+                        resolve(JSON.parse(req.responseText).Localization);
+                    } else {
+                        // Fallback to English if language file not found
+                        const fallbackReq = new XMLHttpRequest();
+                        fallbackReq.open('GET', '../en.json');
+                        fallbackReq.send();
+                        fallbackReq.onreadystatechange = () => {
+                            if (fallbackReq.readyState === 4 && fallbackReq.status === 200) {
+                                resolve(JSON.parse(fallbackReq.responseText).Localization);
+                            } else {
+                                resolve({});
+                            }
+                        };
+                    }
+                }
+            };
+        });
+
+        // Store translations globally and apply them
+        if (translations) {
+            globalTranslations = translations;
+            
+            // Traverse text nodes and translate all text nodes
+            const mainWrapper = document.getElementById('mainWrapper');
+            if (mainWrapper) {
+                const walker = document.createTreeWalker(mainWrapper, NodeFilter.SHOW_TEXT, (node) => {
+                    return node.data.trim() && NodeFilter.FILTER_ACCEPT;
+                });
+                
+                while (walker.nextNode()) {
+                    const originalText = walker.currentNode.data.trim();
+                    if (translations[originalText]) {
+                        walker.currentNode.data = translations[originalText];
+                    }
+                }
+
+                // Special handling for placeholder attributes
+                const translatePlaceholders = item => {
+                    if (item.placeholder?.trim() && translations[item.placeholder.trim()]) {
+                        item.placeholder = translations[item.placeholder.trim()];
+                    }
+                };
+                
+                mainWrapper.querySelectorAll('input').forEach(translatePlaceholders);
+                mainWrapper.querySelectorAll('textarea').forEach(translatePlaceholders);
+            }
+        }
+    } catch (error) {
+        console.warn('Translation failed:', error);
+    }
 }
 
 // Send message to plugin
@@ -217,7 +284,14 @@ function refreshListOfShortcuts() {
     for (var val of listOfCuts) {
         const option = document.createElement("option");
         option.value = val;
-        option.text = val.charAt(0).toUpperCase() + val.slice(1);
+        
+        // Translate "Loading..." if it's the placeholder
+        if (val === 'Loading...' && globalTranslations['Loading...']) {
+            option.text = globalTranslations['Loading...'];
+        } else {
+            option.text = val.charAt(0).toUpperCase() + val.slice(1);
+        }
+        
         listOfShortcuts.appendChild(option);
     }
 
@@ -230,7 +304,11 @@ function setForcedTitleState() {
     const button = document.getElementById("forced_title_checkbox");
     if (!button) return;
 
-    button.textContent = isForcedTitle ? 'ON' : 'OFF';
+    // Use translations if available, fallback to English
+    const onText = globalTranslations['ON'] || 'ON';
+    const offText = globalTranslations['OFF'] || 'OFF';
+    
+    button.textContent = isForcedTitle ? onText : offText;
 }
 
 function selectedNewIndex(selected_id, selected_type) {

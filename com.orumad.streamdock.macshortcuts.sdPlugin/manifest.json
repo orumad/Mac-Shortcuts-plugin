@@ -2,13 +2,10 @@
     "Author": "Orumad",
     "Name": "Shortcuts",
     "Description": "Launch Shortcuts straight from your StreamDock!",
-    "Category": "Shortcuts",
-    "Version": "1.0.0",
     "Icon": "Icons/shortcuts-icon",
+    "Category": "Shortcuts",
     "CategoryIcon": "Icons/shortcuts-white-icon",
-    "Software": {
-        "MinimumVersion": "2.9"
-    },
+    "Version": "1.0.0",
     "CodePath": "StreamDock-Wrapper",
     "PropertyInspectorPath": "pi/main_pi.html",
     "SDKVersion": 1,
@@ -18,11 +15,14 @@
             "MinimumVersion": "12.0"
         }
     ],
+    "Software": {
+        "MinimumVersion": "2.9"
+    },
     "Actions": [
         {
+            "UUID": "com.orumad.streamdock.mac-shortcuts.launch-shortcut",
             "Icon": "Icons/shortcuts-white-icon",
             "Name": "Launch Shortcut",
-            "UUID": "shortcut.run",
             "SupportedInMultiActions": true,
             "Tooltip": "Launches Shortcut!",
             "States": [

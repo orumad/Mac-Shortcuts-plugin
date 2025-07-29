@@ -1,0 +1,19 @@
+{
+  "Name": "Atajos",
+  "Description": "¡Ejecuta Atajos directamente desde tu StreamDock!",
+  "com.orumad.streamdock.mac-shortcuts.launch-shortcut": {
+    "Name": "Lanzar Atajo",
+    "Tooltip": "¡Ejecuta un Atajo!"
+  },
+  "Category": "Atajos",
+  "Localization": {
+    "📁 Folder": "📁 Carpeta",
+    "⚡ Shortcut": "⚡ Atajo",
+    "💬 Force Title": "💬 Forzar Título",
+    "Loading...": "Cargando...",
+    "OFF": "DESACTIVADO",
+    "ON": "ACTIVADO",
+    "Note:": "Nota:",
+    "This setting affects all plugin instances globally. When ON, titles are managed by the shortcut name. To remove a button's title, use the standard Title field above and enter a single space.": "Esta configuración afecta a todas las instancias del plugin globalmente. Cuando está ACTIVADO, los títulos son gestionados por el nombre del atajo. Para eliminar el título de un botón, usa el campo Título estándar de arriba e introduce un espacio."
+  }
+}

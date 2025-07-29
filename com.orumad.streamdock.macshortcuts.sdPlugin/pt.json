@@ -1,0 +1,19 @@
+{
+  "Name": "Atalhos",
+  "Description": "Execute Atalhos diretamente do seu StreamDock!",
+  "com.orumad.streamdock.mac-shortcuts.launch-shortcut": {
+    "Name": "Executar Atalho",
+    "Tooltip": "Executa um Atalho!"
+  },
+  "Category": "Atalhos",
+  "Localization": {
+    "📁 Folder": "📁 Pasta",
+    "⚡ Shortcut": "⚡ Atalho",
+    "💬 Force Title": "💬 Forçar Título",
+    "Loading...": "Carregando...",
+    "OFF": "DESLIGADO",
+    "ON": "LIGADO",
+    "Note:": "Nota:",
+    "This setting affects all plugin instances globally. When ON, titles are managed by the shortcut name. To remove a button's title, use the standard Title field above and enter a single space.": "Esta configuração afeta todas as instâncias do plugin globalmente. Quando LIGADO, os títulos são gerenciados pelo nome do atalho. Para remover o título de um botão, use o campo Título padrão acima e digite um espaço."
+  }
+}
